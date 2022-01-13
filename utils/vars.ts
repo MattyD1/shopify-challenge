@@ -1,0 +1,1 @@
+export const API_KEY = process.env.NEXT_PUBLIC_API_KEY || "TUd4sFNWvZK6Rd9cnlvsFR6AyJKdYSdyjehxzA3Y"
