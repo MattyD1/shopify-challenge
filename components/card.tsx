@@ -34,7 +34,7 @@ const Card = ({ post }: any) => {
       <h2>{post.title}</h2>
       <h3>{format(date, "MMMM Do, YYYY")}</h3>
       <p>{post.explanation}</p>
-      <div onClick={() => setLiked(!liked)}>
+      <div className={styles.liked} onClick={() => setLiked(!liked)}>
         <Heart liked={liked} />
       </div>
     </div>

@@ -6,21 +6,23 @@ import {useState} from 'react'
 import axios from "axios";
 import useSWR from "swr";
 import { format } from "fecha";
-import { DateRangePicker } from 'rsuite'
+import { DateRange } from 'react-date-range';
 
 import { API_KEY } from "../utils/vars";
 
 import styles from "../styles/Home.module.css";
-import 'rsuite/dist/rsuite.min.css';
 import Loader from "../components/loader";
 import Card from "../components/card";
+
+import 'react-date-range/dist/styles.css'; // main css file
+import 'react-date-range/dist/theme/default.css'; // theme css file
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 
 function GetData(dates) {
-  console.log(`https://api.nasa.gov/planetary/apod?start_date=${format(new Date(dates[0]), "YYYY-MM-DD")}&end_date=${format(new Date(dates[1]), "YYYY-MM-DD")}&api_key=${API_KEY}`)
+  console.log(`https://api.nasa.gov/planetary/apod?start_date=${format(new Date(dates[0].startDate), "YYYY-MM-DD")}&end_date=${format(new Date(dates[0].endDate), "YYYY-MM-DD")}&thumbs=true&api_key=${API_KEY}`)
   const { data, error } = useSWR(
-    `https://api.nasa.gov/planetary/apod?start_date=${format(new Date(dates[0]), "YYYY-MM-DD")}&end_date=${format(new Date(dates[1]), "YYYY-MM-DD")}&thumbs=true&api_key=${API_KEY}`,
+    `https://api.nasa.gov/planetary/apod?start_date=${format(new Date(dates[0].startDate), "YYYY-MM-DD")}&end_date=${format(new Date(dates[0].endDate), "YYYY-MM-DD")}&thumbs=true&api_key=${API_KEY}`,
     fetcher
   );
 
@@ -34,6 +36,7 @@ function GetData(dates) {
 const Data = ({dates}) => {
   const { data, isLoading } = GetData(dates);
   if (isLoading) return <Loader />;
+  console.log(data)
   return (
     <div className={styles.grid}>
           {data.map((post, index) => 
@@ -44,14 +47,18 @@ const Data = ({dates}) => {
 }
 
 const Home = () => {
-  const [dates, setDates] = useState([new Date('2021-01-01'), new Date('2021-01-03')]);
-  
+  const [dates, setDates] = useState([
+    {
+      startDate: new Date("2022-01-06"),
+      endDate: new Date("2022-01-11"),
+      key: 'selection'
+    }
+  ]);
 
-  console.log(format(new Date(dates[1]+1), "YYYY-MM-DD"))
-  console.log(format(new Date(dates[1]), "YYYY-MM-DD"))
 
 
-  
+  console.log(dates)
+  console.log(dates[0].startDate)
 
   return (
     <div className={styles.container}>
@@ -67,7 +74,14 @@ const Home = () => {
         <p className={styles.description}>
           Brought to you by NASA&apos;s cool API
         </p>
-        <DateRangePicker value={dates} onChange={(range) => setDates(range)}/>
+        
+        <DateRange
+          editableDateInputs={true}
+          onChange={item => setDates([item.selection])}
+          moveRangeOnFirstSelection={false}
+          ranges={dates}
+          maxDate={new Date()}
+        />
         <Data dates={dates}/>
       </main>
 

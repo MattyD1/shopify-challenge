@@ -85,13 +85,11 @@
   margin: 1rem 0 0 0;
   font-size: 1.5rem;
   letter-spacing: 1px;
-  line-height: 2rem;
 }
 
 .card h3 {
   font-size: 1rem;
   margin: 0 0 1rem 0;
-  line-height: 1.5rem;
   font-weight: normal;
   color: #5d5d5d;
   font-style: italic;
@@ -106,6 +104,10 @@
 .logo {
   height: 1em;
   margin-left: 0.5rem;
+}
+
+.liked {
+  cursor: pointer;
 }
 
 @media (max-width: 600px) {

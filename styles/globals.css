@@ -14,3 +14,16 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.rdrDayToday .rdrDayNumber span:after {
+  background: #ddd;
+}
+
+.rdrDateRangeWrapper {
+  max-width: 500px;
+  width: 100%;
+}
+
+.rdrMonth {
+  width: 100% !important;
+}
